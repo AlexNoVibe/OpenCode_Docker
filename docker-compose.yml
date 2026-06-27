@@ -1,0 +1,21 @@
+services:
+  opencode:
+    container_name: opencode_agent
+    build: .
+    tty: true
+    stdin_open: true
+    volumes:
+      - ${PATH_FOLDER_WORKSPACE}:/workspace
+    working_dir: /workspace
+    env_file:
+      - .env
+    environment:
+      - MODEL=google/gemini-3.5-flash
+      - GEMINI_MODEL=google/gemini-3.5-flash
+      
+      - HTTP_PROXY=${USE_PROXY:+${PROXY_SERVER}}
+      - HTTPS_PROXY=${USE_PROXY:+${PROXY_SERVER}}
+      - http_proxy=${USE_PROXY:+${PROXY_SERVER}}
+      - https_proxy=${USE_PROXY:+${PROXY_SERVER}}
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
