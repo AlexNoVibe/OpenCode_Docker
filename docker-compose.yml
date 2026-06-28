@@ -6,6 +6,9 @@ services:
     stdin_open: true
     volumes:
       - ${PATH_FOLDER_WORKSPACE}:/workspace
+      - ${OPENCODE_LOCAL:-.}:/root/.config/opencode
+      - ${OPENCODE_CONFIG:-.}:/root/.local/share/opencode
+
     working_dir: /workspace
     env_file:
       - .env
