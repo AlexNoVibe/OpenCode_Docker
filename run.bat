@@ -4,5 +4,5 @@ for /f "tokens=1,* delims==" %%a in (.env) do (
     set "%%a=%%b"
 )
 
-%PATH_WINDOWS_TERMINAL% docker compose run --rm opencode
+%PATH_WINDOWS_TERMINAL% docker compose run --rm opencode --continue
 
