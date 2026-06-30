@@ -1,23 +1,30 @@
 @echo off
 chcp 65001 > nul
 
-for /f "tokens=*" %%i in ('docker ps --filter "name=-opencode-run-" --format "{{.Names}}"') do set "CONTAINER_NAME=%%i"
+:: Get the name of the current directory
+for %%I in (.) do set "CURRENT_DIR=%%~nxI"
 
+echo Searching for container matching pattern: "%CURRENT_DIR%-opencode-run-*"
+echo.
+
+:: Find the container using the folder name as part of the filter
+for /f "tokens=*" %%i in ('docker ps --filter "name=%CURRENT_DIR%-opencode-run-" --format "{{.Names}}"') do set "CONTAINER_NAME=%%i"
+
+:: Check if the container was found
 if "%CONTAINER_NAME%"=="" (
-    echo [ERROR] Container with name *-opencode-run-* not found or not running.
+    echo [ERROR] Container starting with "%CURRENT_DIR%-opencode-run-" not found.
     echo.
     pause
     exit /b
 )
 
-echo Connecting to container %CONTAINER_NAME%...
+echo Connecting to container: "%CONTAINER_NAME%"
 echo To exit the container, type 'exit'
 echo --------------------------------------------------
 
-:: 3. Start an interactive sh session inside the found container
-docker exec -it %CONTAINER_NAME% sh
+:: Start an interactive shell session inside the container
+docker exec -it "%CONTAINER_NAME%" sh
 
-:: 4. This block runs immediately after you exit the container
 echo --------------------------------------------------
 echo Container session ended.
 echo.
