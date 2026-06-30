@@ -20,5 +20,9 @@ services:
       - HTTPS_PROXY=${USE_PROXY:+${PROXY_SERVER}}
       - http_proxy=${USE_PROXY:+${PROXY_SERVER}}
       - https_proxy=${USE_PROXY:+${PROXY_SERVER}}
+      
+      - NO_PROXY=host.docker.internal,127.0.0.1,localhost
+      - no_proxy=host.docker.internal,127.0.0.1,localhost
+
     extra_hosts:
       - "host.docker.internal:host-gateway"
