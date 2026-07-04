@@ -4,5 +4,5 @@ USER root
 
 RUN apk update && \
     apk add --no-cache python3 py3-pip git curl wget nodejs npm bash openssh nano && \
-    pip3 install --no-cache-dir --break-system-packages requests numpy && \
+    pip3 install --no-cache-dir --break-system-packages requests numpy graphifyy openai && graphifyy install && \
     rm -rf /var/cache/apk/*# 
