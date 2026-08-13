@@ -30,7 +30,41 @@
           }
         }
       }
+    },
+    "omniroute": {
+      "name": "OmniRoute",
+      "npm": "@ai-sdk/openai-compatible",
+      "options": {
+        "baseURL": "http://host.docker.internal:20128/v1",
+        "apiKey": "sk_omniroute"
+      },
+      "models": {
+        "auto": {
+          "name": "Auto (OmniRoute)"
+        },
+        "free-stack": {
+          "name": "free-stack"
+        },
+        "last_work_models_lite": {
+          "name": "last_work_models_lite"
+        },
+        "last_work_models_pro": {
+          "name": "last_work_models_pro"
+        },
+        "auto/pro-coding": {
+          "name": "auto/pro-coding"
+        },
+        "auto/best-free": {
+          "name": "auto/best-free"
+        },
+        "auto/best-coding": {
+          "name": "auto/best-coding"
+        },
+        "auto/best-coding-fast": {
+          "name": "auto/best-coding-fast"
+        }
+      }
     }
   },
-  "model": "lmstudio/local-model"
+  "model": "omniroute/auto"
 }
