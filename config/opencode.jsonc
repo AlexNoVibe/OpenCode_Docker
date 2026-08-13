@@ -32,7 +32,7 @@
       }
     },
     "omniroute": {
-      "name": "OmniRoute",
+      "name": "OmmmmmniRoute",
       "npm": "@ai-sdk/openai-compatible",
       "options": {
         "baseURL": "http://host.docker.internal:20128/v1",
