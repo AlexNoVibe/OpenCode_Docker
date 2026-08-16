@@ -12,21 +12,21 @@
           "name": "google/gemma-4-e4b",
           "limit": {
             "context": 131072,
-            "output": 8192
+            "output": 65536
           }
         },
         "gemma-4-e2b": {
           "name": "google/gemma-4-e2b",
           "limit": {
             "context": 131072,
-            "output": 8192
+            "output": 65536
           }
         },
         "qwen3.5-9b": {
           "name": "qwen/qwen3.5-9b",
           "limit": {
             "context": 131072,
-            "output": 8192
+            "output": 65536
           }
         }
       }
@@ -35,64 +35,78 @@
       "name": "OmmmmmniRoute",
       "npm": "@ai-sdk/openai-compatible",
       "options": {
-        "baseURL": "http://host.docker.internal:20128/v1",
-        "apiKey": "sk_omniroute"
+        "baseURL": "{env:OMNIROUTE_API_URL}",
+        "apiKey": "{env:OMNIROUTE_API_KEY}"
       },
   "models": {
     "auto": {
       "name": "auto/best-free",
       "limit": {
         "context": 256000,
-        "output": 32192
+        "output": 65536
       }
     },
     "free-stack": {
       "name": "free-stack",
       "limit": {
         "context": 256000,
-        "output": 32192
+        "output": 65536
+      }
+    },
+    "stack1": {
+      "name": "stack1",
+      "limit": {
+        "context": 256000,
+        "output": 65536
+      }
+    },
+    "stack2": {
+      "name": "stack2",
+      "limit": {
+        "context": 256000,
+        "output": 65536
       }
     },
     "last_work_models_lite": {
       "name": "last_work_models_lite",
       "limit": {
         "context": 256000,
-        "output": 32192
+        "output": 65536
       }
     },
     "last_work_models_pro": {
       "name": "last_work_models_pro",
       "limit": {
         "context": 256000,
-        "output": 32192
+        "output": 65536
       }
     },
     "auto/pro-coding": {
       "name": "auto/pro-coding",
       "limit": {
         "context": 256000,
-        "output": 32192
+        "output": 65536
       }
     },
     "auto/best-free": {
       "name": "auto/best-free",
       "limit": {
         "context": 256000,
-        "output": 32192
+        "output": 65536
       }
     },
     "auto/best-coding": {
       "name": "auto/best-coding",
       "limit": {
         "context": 256000,
-        "output": 32192
+        "output": 65536
       }
     },
     "auto/best-coding-fast": {
       "name": "auto/best-coding-fast",
       "limit": {
         "context": 256000,
-        "output": 32192
+        "output": 65536
       }
     }
   }    
