@@ -23,6 +23,18 @@
       "env": {
         "BRAVE_API_KEY": ""
       }
+    },
+    "duckduckgo": {
+      "type": "local",
+      "command": ["npx", "-y", "duckduckgo-mcp-server"],
+      "enabled": false,
+      "env": {}
+    },
+    "tavily": {
+      "type": "local",
+      "command": ["npx", "-y", "tavily-mcp"],
+	  "enabled": true,
+      "environment": { "TAVILY_API_KEY": "{env:TAVILY_API_KEY}" }
     }
   }
 }

@@ -1,3 +1,4 @@
 .env
 !.env.example
 workspace/AGENTS.md
+/conf_saved/*
