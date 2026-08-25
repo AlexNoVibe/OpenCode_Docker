@@ -6,8 +6,7 @@ services:
     stdin_open: true
     volumes:
       - ${PATH_FOLDER_WORKSPACE:-./workspace}:/workspace
-      - ${OPENCODE_LOCAL:-./config}:/root/.config/opencode
-      - ${OPENCODE_CONFIG:-./local}:/root/.local/share/opencode
+      - ${OPENCODE_CONFIG:-./root}:/root
       #- C:\proj1:/workspace/proj1
       #- C:\proj2:/workspace/proj2
       #- C:\proj3:/workspace/proj3

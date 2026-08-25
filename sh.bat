@@ -1,6 +1,19 @@
 @echo off
 chcp 65001 > nul
 
+if exist .env (
+    for /f "usebackq eol=# tokens=1,* delims==" %%a in (".env") do (
+        if not "%%a"=="" set "%%a=%%b"
+    )
+)
+
+if "%~1" neq "--in-wt" (
+    if defined PATH_WINDOWS_TERMINAL (
+        start "" "%PATH_WINDOWS_TERMINAL:"=%" -d "%CD%" cmd /c ""%~f0" --in-wt"
+        exit /b
+    )
+)
+
 :: Get the name of the current directory
 for %%I in (.) do set "CURRENT_DIR=%%~nxI"
 
@@ -28,4 +41,4 @@ docker exec -it "%CONTAINER_NAME%" sh
 echo --------------------------------------------------
 echo Container session ended.
 echo.
-pause
+
