@@ -1,4 +1,52 @@
 services:
+    proxy-sidecar:
+    build:
+      context: .
+      dockerfile: Dockerfile.proxy
+    container_name: proxy-sidecar
+    #ports:  # прописывает проброс портов тут
+    #  - "3000:3000"
+    #  - "8080:8080"
+    cap_add:
+      - NET_ADMIN
+    devices:
+      - /dev/net/tun
+    entrypoint: /bin/sh
+    command: 
+      - -c
+      - |
+        GW=$$(ip route | awk '/default/ {print $$3}')
+        PROXY_IP=$$(getent hosts host.docker.internal | awk '{print $$1}')
+        if [ -z "$$PROXY_IP" ]; then PROXY_IP=$$GW; fi
+
+        ip route add $$PROXY_IP via $$GW dev eth0 || true
+
+        # Настройка Kill Switch
+        iptables -F OUTPUT
+        iptables -A OUTPUT -o lo -j ACCEPT
+        iptables -A OUTPUT -o tun0 -j ACCEPT
+
+        # Ответный трафик для входящих соединений
+        iptables -A OUTPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
+
+        # ДИНАМИЧЕСКИЙ ЦИКЛ IPTABLES ИЗ .ENV
+        # Compose заменит ${ALLOWED_HOST_PORTS} при старте, а $$port обработает sh
+        for port in $$(echo "${ALLOWED_HOST_PORTS}" | tr ',' ' '); do
+          iptables -A OUTPUT -o eth0 -d $$PROXY_IP -p tcp --dport $$port -j ACCEPT
+        done
+
+        # Наглухо блокируем остальной исходящий трафик через eth0
+        iptables -A OUTPUT -o eth0 -j DROP
+
+        # Подъем TUN и запуск tun2socks
+        ip tuntap add mode tun dev tun0
+        ip addr add 198.18.0.1/15 dev tun0
+        ip link set dev tun0 up
+        ip route del default
+        ip route add default dev tun0
+
+        exec tun2socks -device tun0 -proxy socks5://$$PROXY_IP:8371 -log info
+
   opencode:
     container_name: opencode_agent
     build: .
@@ -14,17 +62,10 @@ services:
     working_dir: /workspace
     env_file:
       - .env
-    environment:
-      - MODEL=google/gemini-3.5-flash
-      - GEMINI_MODEL=google/gemini-3.5-flash
       
-      - HTTP_PROXY=${USE_PROXY:+${PROXY_SERVER}}
-      - HTTPS_PROXY=${USE_PROXY:+${PROXY_SERVER}}
-      - http_proxy=${USE_PROXY:+${PROXY_SERVER}}
-      - https_proxy=${USE_PROXY:+${PROXY_SERVER}}
-      
-      - NO_PROXY=host.docker.internal,127.0.0.1,localhost
-      - no_proxy=host.docker.internal,127.0.0.1,localhost
+    depends_on:
+      - proxy-sidecar
+    network_mode: "service:proxy-sidecar"
 
     extra_hosts:
       - "host.docker.internal:host-gateway"

@@ -1,0 +1,2 @@
+FROM xjasonlyu/tun2socks:v2.5.1
+RUN apk add --no-cache iptables
