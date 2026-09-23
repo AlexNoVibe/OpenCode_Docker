@@ -45,7 +45,7 @@ services:
         ip route del default
         ip route add default dev tun0
 
-        exec tun2socks -device tun0 -proxy socks5://$$PROXY_IP:8371 -log info
+        exec tun2socks -device tun0 -proxy socks5://$$PROXY_IP:8371 -loglevel info
 
   opencode:
     container_name: opencode_agent
